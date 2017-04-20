@@ -6,8 +6,6 @@ $(function () {
 
   }
 
-  // var username = prompt("what is your name?");
-
   var socket = io();
   socket.emit('login',username);
 

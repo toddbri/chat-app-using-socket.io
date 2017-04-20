@@ -1,33 +1,41 @@
+/* jshint esversion: 6 */
 const express = require('express');
 const app = express();
-// var app = require('express')();
 var http = require('http').Server(app);
-var io = require('socket.io')(http);
+const session = require('express-session');
+var secrets = require('./config/secret.js');
 var users = {};
+
+app.use(session({
+  secret: secrets.secret,
+  cookie: {maxAge: 1000000}
+}));
+
+app.use((req,resp,next) => {
+  resp.locals.session = req.session;
+  next();
+});
+
+var colorlist = ['aqua', 'blue','brown','chartreuse',
+'coral','crimson','darkgreen','darkmagenta','darkolivegreen',
+'darkturquoise','darkviolet','gold','indigo','lightblue',
+'lime','orangered','peru','tomato','violet'];
+
+
+app.use((req,resp,next) => {
+  next();
+});
+
 app.use(express.static('public'));
-var colorlist = ['aqua', 'blue','brown','chartreuse','coral','crimson','darkgreen','darkmagenta','darkolivegreen','darkturquoise','darkviolet','gold','indigo','lightblue','lime','orangered','peru','tomato','violet'];
-// app.get('/', function(req, res){
-// res.sendFile(__dirname + '/index.html');
-// });
-function pickAColor(){
-  var num = parseInt(Math.random() * colorlist.length);
-  return colorlist[num];
-}
-function updateuserlist(){
-  console.log("clients: " + users);
-  var usernames= [];
-  var sessionIDs = Object.keys(io.sockets.sockets);
-  Object.keys(users).forEach(function(key){
-    console.log(key, users[key]);
-    if (sessionIDs.indexOf(key) > -1 ){
-      usernames.push(users[key]);
-    }
 
-  });
-  io.emit('updateuserlist',usernames);
-}
+app.use((req,resp,next) => {
+  if (req.session.username) {
+    next();
+  }
 
+});
 
+var io = require('socket.io')(http);
 io.on('connection', function(socket){
 
   console.log('a user connected');
@@ -80,6 +88,25 @@ setInterval(function(){
   io.emit('typing','');
 },1700);
 
-http.listen(3000, function(){
-  console.log('listening on *:3000');
+var port = 5004;
+http.listen(port, function(){
+  console.log('listening on port: ' + port);
 });
+
+function pickAColor(){
+  var num = parseInt(Math.random() * colorlist.length);
+  return colorlist[num];
+}
+function updateuserlist(){
+  console.log("clients: " + users);
+  var usernames= [];
+  var sessionIDs = Object.keys(io.sockets.sockets);
+  Object.keys(users).forEach(function(key){
+    console.log(key, users[key]);
+    if (sessionIDs.indexOf(key) > -1 ){
+      usernames.push(users[key]);
+    }
+
+  });
+  io.emit('updateuserlist',usernames);
+}
