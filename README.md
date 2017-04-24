@@ -21,7 +21,7 @@ is typing a message. A list of all current users is shown on the right. It also 
 enters or leaves the chat room.
 
 <br><br>
-![Sample Usage](https://github.com/toddbri/chat-app-using-socket.io/master/blob/screenshots/chatapp.png)
+![Sample Usage](https://github.com/toddbri/chat-app-using-socket.io/blob/master/screenshots/chatapp.png)
 
 ## Challenges
 The biggest challenge was keeping the list of usernames associated with the socket ID.
