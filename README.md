@@ -1,9 +1,10 @@
 # Multiuser Chat Application
 ---
-## [Live Demo](http://chat.briley.org)
+## [Live Site](http://chat.briley.org)
+## [Demo Video](https://www.youtube.com/watch?v=6rIfKKe9D8s&feature=youtu.be)
 
 ## What It Is
-An application that allows multiple users to chat at the same time using a browser.
+An application that allows multiple users to chat simultaneously using a browser.
 
 
 ## Languages used
@@ -19,7 +20,8 @@ that is used to display their messages in the chat window. The application alert
 is typing a message. A list of all current users is shown on the right. It also announces when a user
 enters or leaves the chat room.
 
-
+<br><br>
+![Sample Usage](https://github.com/toddbri/chat-app-using-socket.io/master/blob/screenshots/chatapp.png)
 
 ## Challenges
 The biggest challenge was keeping the list of usernames associated with the socket ID.
